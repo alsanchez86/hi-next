@@ -3,6 +3,16 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "../scss/main.scss";
 
-export default ({ Component, pageProps }) => {
-    return <Component {...pageProps} />
-}
+import Head from 'next/head'
+
+export default ({ Component, pageProps }) =>
+
+<div>
+    <Head>
+        <title>Metajob</title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    </Head>
+
+    <Component {...pageProps} />
+</div>
