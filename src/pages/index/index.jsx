@@ -4,21 +4,24 @@ import { increaseCounter, updateShows } from "../../contexts/main/actions";
 import Layout from "../../components/layout";
 import Template from "./template";
 import { requestFilms, requestQuote } from "../../utils/requests";
+import getApiUrl from "../../utils/get-api-url";
 
 // Datos que se necesitan para la representación inicial de la página
 export async function getServerSideProps() {
+    const localUrl = getApiUrl("local");
     const ssrShows = await requestFilms("pepe");
-    const ssrQuote = await requestQuote();
+    const ssrQuote = await requestQuote(localUrl);
 
     return {
         props: {
+            localUrl,
             ssrShows,
             ssrQuote
         }
     };
 }
 
-export default ({ ssrShows, ssrQuote }) => {
+export default ({ localUrl, ssrShows, ssrQuote }) => {
     const contextState = useContextState();
     const contextDispatch = useContextDispatch();
     const handleIncrease = () => contextDispatch(increaseCounter(1));
@@ -30,7 +33,7 @@ export default ({ ssrShows, ssrQuote }) => {
         contextDispatch(updateShows(data));
     };
     const getQuote = async () => {
-        const data = await requestQuote();
+        const data = await requestQuote(localUrl);
         setQuote(data);
     }
 
