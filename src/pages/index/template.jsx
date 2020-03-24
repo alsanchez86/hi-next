@@ -6,13 +6,13 @@ export default (props) =>
     <p>Counter: {props.counter}</p>
 
     <Button
+        label="Increase"
         onClick={props.handleIncrease}>
-            Increase
     </Button>
 
     <Button
+        label="Decrease"
         onClick={props.handleDecrease}>
-            Decrease
     </Button>
 
     <Button
@@ -33,6 +33,11 @@ export default (props) =>
     </ul>
 
     <p>
-        Quote: {props.quote.text}
+        Quote: {props.quote?.text}
     </p>
+
+    <Button
+        label="get quote"
+        onClick={props.getQuote}>
+    </Button>
 </>

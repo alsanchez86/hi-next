@@ -1,37 +1,40 @@
-import fetcher from "../../utils/fetcher";
-import getApiUrl from "../../utils/get-api-url";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useContextState, useContextDispatch } from "../../contexts/main";
 import { increaseCounter, updateShows } from "../../contexts/main/actions";
 import Layout from "../../components/layout";
 import Template from "./template";
+import { requestFilms, requestQuote } from "../../utils/requests";
 
 export async function getServerSideProps() {
-    const localUrl = getApiUrl("local");
-    const shows = await fetcher("https://api.tvmaze.com/search/shows?q=pepe");
-    const quote = await fetcher(`${localUrl}get-quote`);
+    const ssrShows = await requestFilms("pepe");
+    const ssrQuote = await requestQuote();
 
     return {
         props: {
-            localUrl,
-            shows,
-            quote
+            ssrShows,
+            ssrQuote
         }
     };
 }
 
-export default ({ localUrl, shows, quote }) => {
+export default ({ ssrShows, ssrQuote }) => {
     const contextState = useContextState();
     const contextDispatch = useContextDispatch();
     const handleIncrease = () => contextDispatch(increaseCounter(1));
     const handleDecrease = () => contextDispatch(increaseCounter(-1));
+    const [quote, setQuote] = useState(ssrQuote); // Local state. Not context data
     const getBatmanFilms = async () => {
-        const batmanFilms = await fetcher("https://api.tvmaze.com/search/shows?q=batman");
-        contextDispatch(updateShows(batmanFilms));
+        const data = await requestFilms("batman");
+        contextDispatch(updateShows(data));
     };
+    const getQuote = async () => {
+        const data = await requestQuote();
+        setQuote(data);
+    }
 
+    // Update main context from SSR data
     useEffect(() => {
-        contextDispatch(updateShows(shows));
+        contextDispatch(updateShows(ssrShows));
     }, []);
 
     return (
@@ -43,6 +46,7 @@ export default ({ localUrl, shows, quote }) => {
                 shows={contextState.shows}
                 quote={quote}
                 getBatmanFilms={getBatmanFilms}
+                getQuote={getQuote}
             />
         </Layout>
     );
