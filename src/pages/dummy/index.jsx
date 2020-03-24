@@ -2,20 +2,14 @@ import { useContextState } from "../../contexts/main"
 import Layout from "../../components/layout";
 import Template from "./template";
 
-const Index = () => {
+export default () => {
     const contextState = useContextState();
 
     return (
         <Layout>
             <Template
-                count={contextState}
+                counter={contextState.counter}
             />
         </Layout>
     );
 }
-
-Index.getInitialProps = async ({}) => {
-    return {};
-}
-
-export default Index;

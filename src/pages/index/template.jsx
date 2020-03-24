@@ -3,9 +3,17 @@ import { Button } from 'primereact/button';
 export default (props) =>
 
 <>
-    <p>Counter: {props.count}</p>
-    <button onClick={props.handleIncrease}>Increase</button>
-    <button onClick={props.handleDecrease}>Decrease</button>
+    <p>Counter: {props.counter}</p>
+
+    <Button
+        onClick={props.handleIncrease}>
+            Increase
+    </Button>
+
+    <Button
+        onClick={props.handleDecrease}>
+            Decrease
+    </Button>
 
     <Button
         label="Async click redux"

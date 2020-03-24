@@ -1,12 +1,18 @@
+import { generateState } from "./utils";
+
 export default (state, action) => {
     switch (action.type) {
-        case 'INCREASE':
-            return state + 1
-        case 'DECREASE':
-            return state - 1
-        case 'INCREASE_BY':
-            return state + action.payload
+        case "UPDATE":
+            return updateCounter(state, action.value);
+
         default:
-            throw new Error(`Unknown action: ${action.type}`)
+            return state;
     }
+}
+
+const updateCounter = (state, value) => {
+    const counter = state.counter + value;
+    return generateState({
+        counter
+    });
 }

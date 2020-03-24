@@ -1,18 +1,18 @@
 import { useContextState, useContextDispatch } from "../../contexts/main";
-import { increaseCounter, decreaseCounter } from "../../contexts/main/actions";
+import { updateCounter } from "../../contexts/main/actions";
 import Layout from "../../components/layout";
 import Template from "./template";
 
 export default () => {
     const contextState = useContextState();
     const contextDispatch = useContextDispatch();
-    const handleIncrease = () => contextDispatch(increaseCounter());
-    const handleDecrease = () => contextDispatch(decreaseCounter());
+    const handleIncrease = () => contextDispatch(updateCounter(1));
+    const handleDecrease = () => contextDispatch(updateCounter(-1));
 
     return (
         <Layout>
             <Template
-                count={contextState}
+                counter={contextState.counter}
                 handleIncrease={handleIncrease}
                 handleDecrease={handleDecrease}
             />
