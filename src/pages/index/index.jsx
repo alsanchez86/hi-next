@@ -5,6 +5,7 @@ import Layout from "../../components/layout";
 import Template from "./template";
 import { requestFilms, requestQuote } from "../../utils/requests";
 
+// Datos que se necesitan para la representación inicial de la página
 export async function getServerSideProps() {
     const ssrShows = await requestFilms("pepe");
     const ssrQuote = await requestQuote();
@@ -23,6 +24,7 @@ export default ({ ssrShows, ssrQuote }) => {
     const handleIncrease = () => contextDispatch(increaseCounter(1));
     const handleDecrease = () => contextDispatch(increaseCounter(-1));
     const [quote, setQuote] = useState(ssrQuote); // Local state. Not context data
+    // Datos asíncronos solicitados por el usuario
     const getBatmanFilms = async () => {
         const data = await requestFilms("batman");
         contextDispatch(updateShows(data));
