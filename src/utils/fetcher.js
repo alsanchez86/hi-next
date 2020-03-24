@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from "isomorphic-unfetch";
 
 /**
  * Simple wrapper for vanilla fetch

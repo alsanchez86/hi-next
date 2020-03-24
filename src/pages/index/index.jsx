@@ -25,6 +25,10 @@ export default ({ localUrl, shows, quote }) => {
     const contextDispatch = useContextDispatch();
     const handleIncrease = () => contextDispatch(increaseCounter(1));
     const handleDecrease = () => contextDispatch(increaseCounter(-1));
+    const getBatmanFilms = async () => {
+        const batmanFilms = await fetcher("https://api.tvmaze.com/search/shows?q=batman");
+        contextDispatch(updateShows(batmanFilms));
+    };
 
     useEffect(() => {
         contextDispatch(updateShows(shows));
@@ -38,6 +42,7 @@ export default ({ localUrl, shows, quote }) => {
                 handleDecrease={handleDecrease}
                 shows={contextState.shows}
                 quote={quote}
+                getBatmanFilms={getBatmanFilms}
             />
         </Layout>
     );

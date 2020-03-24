@@ -16,8 +16,9 @@ export default (props) =>
     </Button>
 
     <Button
-        label="Async click redux"
+        label="get batman films"
         icon="pi pi-check"
+        onClick={props.getBatmanFilms}
     />
 
     <ul>
