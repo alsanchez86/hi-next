@@ -4,15 +4,17 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "next",
+        "dev": "cross-env NODE_ENV=development node server.js",
         "build": "next build",
-        "start": "next start"
+        "start": "cross-env NODE_ENV=production node server.js"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
         "classnames": "^2.2.6",
+        "cross-env": "^7.0.2",
+        "isomorphic-unfetch": "^3.0.0",
         "next": "^9.3.1",
         "primeicons": "^2.0.0",
         "primereact": "^4.1.2",
