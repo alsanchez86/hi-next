@@ -6,8 +6,9 @@ import Template from "./template";
 import { requestFilms, requestQuote } from "../../utils/requests";
 import getApiUrl from "../../utils/get-api-url";
 
-// Datos que se necesitan para la representación inicial de la página
-export async function getServerSideProps() {
+// Datos que se necesitan para la representación inicial de la página.
+// De este modo, evitamos renderizaciones adicionales iniciales para representar correctamente la página con datos solicitados a los servicios.
+export async function getServerSideProps(ctx) {
     const localUrl = getApiUrl("local");
     const ssrShows = await requestFilms("pepe");
     const ssrQuote = await requestQuote(localUrl);
@@ -27,7 +28,8 @@ export default ({ localUrl, ssrShows, ssrQuote }) => {
     const handleIncrease = () => contextDispatch(increaseCounter(1));
     const handleDecrease = () => contextDispatch(increaseCounter(-1));
     const [quote, setQuote] = useState(ssrQuote); // Local state. Not context data
-    // Datos asíncronos solicitados por el usuario
+    // Datos asíncronos solicitados por el usuario.
+    // Datos que no son necesarios para la correcta presentación inicial de la página
     const getBatmanFilms = async () => {
         const data = await requestFilms("batman");
         contextDispatch(updateShows(data));
@@ -37,7 +39,7 @@ export default ({ localUrl, ssrShows, ssrQuote }) => {
         setQuote(data);
     }
 
-    // Update main context from SSR data
+    // Update main context from SSR data on component did mount
     useEffect(() => {
         contextDispatch(updateShows(ssrShows));
     }, []);
