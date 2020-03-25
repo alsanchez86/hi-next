@@ -4,25 +4,22 @@ import { increaseCounter, updateShows } from "../../contexts/main/actions";
 import Layout from "../../components/layout";
 import Template from "./template";
 import { requestFilms, requestQuote } from "../../utils/requests";
-import getApiUrl from "../../utils/get-api-url";
 
 // Datos que se necesitan para la representación inicial de la página.
 // De este modo, evitamos renderizaciones adicionales iniciales para representar correctamente la página con datos solicitados a los servicios.
 export async function getServerSideProps(ctx) {
-    const localUrl = getApiUrl("local");
     const ssrShows = await requestFilms("pepe");
-    const ssrQuote = await requestQuote(localUrl);
+    const ssrQuote = await requestQuote();
 
     return {
         props: {
-            localUrl,
             ssrShows,
             ssrQuote
         }
     };
 }
 
-export default ({ localUrl, ssrShows, ssrQuote }) => {
+export default ({ ssrShows, ssrQuote }) => {
     const contextState = useContextState();
     const contextDispatch = useContextDispatch();
     const handleIncrease = () => contextDispatch(increaseCounter(1));
@@ -35,7 +32,7 @@ export default ({ localUrl, ssrShows, ssrQuote }) => {
         contextDispatch(updateShows(data));
     };
     const getQuote = async () => {
-        const data = await requestQuote(localUrl);
+        const data = await requestQuote();
         setQuote(data);
     }
 
